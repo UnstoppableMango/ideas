@@ -34,6 +34,15 @@
 
           treefmt.programs = {
             nixfmt.enable = true;
+            mdformat.enable = true;
+            mbake = {
+              enable = true;
+              settings.ensure_final_newline = true;
+            };
+            shfmt.enable = true;
+            jsonfmt.enable = true;
+            yamlfmt.enable = true;
+            actionlint.enable = true;
           };
         };
     };
