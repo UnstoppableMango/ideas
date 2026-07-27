@@ -41,7 +41,10 @@
             };
             shfmt.enable = true;
             jsonfmt.enable = true;
-            yamlfmt.enable = true;
+            yamlfmt = {
+              enable = true;
+              settings.formatter.retain_line_breaks = true;
+            };
             actionlint.enable = true;
           };
         };
