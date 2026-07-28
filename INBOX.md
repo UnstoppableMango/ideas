@@ -30,6 +30,27 @@ Simple state machine doc/diagram for the lifecycle in GOALS.md, useful once tool
 
 Consider a `rejected` reason field (optional) once the refine format is designed, since rejected ideas without context are hard to learn from later.
 
+### Idea input
+
+How can we minimize the time between idea and documentation?
+Website + mobile app?
+Always with me (or close by).
+Could we get away with static github pages site?
+Would need auth in order to commit.
+Not sure how much heavy lifting for auth with gh pages.
+
+### Refining ideas
+
+Thinking start with markdown parser.
+Extract the minimal format defined here.
+KISS; md header + text until next header.
+Project headers get special treatment of course.
+Contemplating extracting (removing) from INBOX.md once refined.
+Could keep all entries in INBOX.md indefinitely... still undecided.
+Multi-step refinement?
+Extract from INBOX.md -> move to e.g. ideas/extracted.md or ideas/project/extracted.md -> parse + convert into JSON.
+Allows for human refinement post-inbox.
+
 ## Project: historian-replacement
 
 Mom likes historian, but has some issues with it.
