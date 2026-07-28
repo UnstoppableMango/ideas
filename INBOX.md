@@ -35,7 +35,7 @@ Consider a `rejected` reason field (optional) once the refine format is designed
 How can we minimize the time between idea and documentation?
 Website + mobile app?
 Always with me (or close by).
-Could we get away with static github pages site?
+Could we get away with static GitHub Pages site?
 Would need auth in order to commit.
 Not sure how much heavy lifting for auth with gh pages.
 
