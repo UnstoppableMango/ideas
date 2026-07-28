@@ -1,32 +1,51 @@
 # Idea File Layout
 
-## Directory structure
+## File
 
 ```
-ideas/
-  slug.md           # one file per idea, flat, no status subdirs
-README.md            # generated index: title, status, date, tags, link
+INBOX.md   # single running file, all raw ideas appended here
 ```
 
-## Filenames
+No per-idea files, no frontmatter.
+One file, ideas appended as you think of them.
 
-`slug.md`, no date prefix. Date lives in frontmatter only (single source of truth, avoids filename/frontmatter drift).
+## Structure
 
-## Frontmatter
+Standalone idea:
 
 ```markdown
----
-title: Short title
-status: proposed   # proposed | greenlit | in-progress-ai | in-progress-human | done | rejected
-date: 2026-07-27
-tags: [tag1, tag2]
----
+## Cache the API responses
+2026-07-27
 
-Raw idea body, unedited.
+Raw thought, unedited, whatever comes out.
 ```
+
+Idea under a project (loose grouping, heading only):
+
+```markdown
+## Project: checkout-revamp
+
+### Add saved-cart recovery
+2026-07-27
+
+Raw thought...
+
+### Speed up payment step
+2026-07-27
+
+Raw thought...
+```
+
+- `## Project: <name>` groups related `###` idea entries underneath it.
+- Standalone ideas (no project) are plain `##` headings at the top level.
+- Date line directly under the heading, plain text, no frontmatter key.
+- No status, tags, or other metadata at capture time.
+  See GOALS.md, that's deferred to a future refine process.
 
 ## Rationale
 
-- Status changes over an idea's lifecycle, storing it only in frontmatter avoids file moves/renames (which break links and add noisy git history).
-- Frontmatter is the single source of truth for tooling (per GOALS.md); no duplicate date in filename to drift out of sync.
-- `README.md` is a generated index, not hand-maintained, regenerate from frontmatter across all `ideas/*.md` files.
+- Single file, zero friction: capturing a thought is "add a heading and write," no file creation, no schema to fill in.
+- Project grouping is a heading, not a folder or a tracked entity.
+  An idea can reference a project that has one entry or twenty, and renaming the heading costs nothing (no file renames, no links to break).
+- Structured metadata (status, tags, machine-readable fields) is intentionally deferred to a future refine step.
+  Ideas start raw and only gain structure once someone decides they're worth refining.
