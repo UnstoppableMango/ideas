@@ -71,4 +71,3 @@ Robust note-taking and display abilities.
 ## Project: wishlists
 
 ## Project: forkctl
-
