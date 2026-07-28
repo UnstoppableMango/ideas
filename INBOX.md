@@ -5,7 +5,6 @@
 2026-07-27
 
 Script/CI job reads refined entries and builds an index table (title, status, date, tags, link).
-Run in CI on push, commit generated README back or fail if stale.
 
 ### Status transition validation
 
@@ -30,3 +29,46 @@ Simple state machine doc/diagram for the lifecycle in GOALS.md, useful once tool
 2026-07-27
 
 Consider a `rejected` reason field (optional) once the refine format is designed, since rejected ideas without context are hard to learn from later.
+
+## Project: historian-replacement
+
+Mom likes historian, but has some issues with it.
+How can I help her with software?
+Thinking write a custom tool just for this.
+
+## Project: procon
+
+Simple tool for weighing pros vs cons.
+Website + mobile app.
+Start small, session state only.
+Plan to grow, add accounts, persist sessions, share across platforms, etc.
+Concept is dead simple, focus on UX and distribution.
+
+## Project: cookn-replacement
+
+Mom has used cookn for years and hasn't been happy with some of the more recent changes.
+Can we make a replacement for her?
+See if we can follow a somewhat realistic product lifecycle.
+Interview for use-cases, prioritize, design mockups.
+I want to follow the product lifecycle, but don't want to burden mom with all this process and procedure.
+
+## Project: erik
+
+### Family tree visualizer
+
+### Website
+
+Would be cool to expose as a website for others to consume.
+Must be auth gated of course given how personal I intend this to be.
+
+### Relationship tracker
+
+Notes and things about the people in my life.
+Try to avoid being creepy.
+Pseudo "contacts app", similar features.
+Robust note-taking and display abilities.
+
+## Project: wishlists
+
+## Project: forkctl
+
