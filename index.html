@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INBOX</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f0f6fc;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.05em;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      color: #8b949e;
+      margin-bottom: 0.3rem;
+      margin-top: 0.9rem;
+    }
+
+    label:first-of-type { margin-top: 0; }
+
+    input[type="text"], textarea {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #e6edf3;
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.65rem;
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: #58a6ff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.5;
+    }
+
+    .row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .row > * { flex: 1; }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.55rem 1.1rem;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    button:disabled { opacity: 0.5; cursor: default; }
+
+    .btn-primary {
+      background: #238636;
+      color: #fff;
+    }
+
+    .btn-primary:not(:disabled):hover { background: #2ea043; }
+
+    .btn-github {
+      background: #21262d;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-github:not(:disabled):hover { background: #30363d; }
+
+    .btn-logout {
+      background: none;
+      color: #8b949e;
+      border: 1px solid #30363d;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.65rem;
+    }
+
+    .btn-logout:hover { color: #e6edf3; border-color: #8b949e; }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.1rem;
+    }
+
+    .status {
+      font-size: 0.8rem;
+      color: #8b949e;
+      min-height: 1.2em;
+    }
+
+    .status.error { color: #f85149; }
+    .status.ok    { color: #3fb950; }
+
+    #auth-section, #form-section { display: none; }
+
+    .user-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.1rem;
+      font-size: 0.82rem;
+      color: #8b949e;
+    }
+
+    .user-bar img {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+    }
+
+    .user-bar span { flex: 1; color: #e6edf3; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>INBOX</h1>
+
+  <!-- Auth -->
+  <div id="auth-section">
+    <button class="btn-github" id="login-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+          0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+          -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+          .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+          -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0
+          1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82
+          1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01
+          1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      Sign in with GitHub
+    </button>
+  </div>
+
+  <!-- Idea form -->
+  <div id="form-section">
+    <div class="user-bar">
+      <img id="user-avatar" src="" alt="">
+      <span id="user-login"></span>
+      <button class="btn-logout" id="logout-btn">Sign out</button>
+    </div>
+
+    <label for="title">Title</label>
+    <input type="text" id="title" placeholder="Idea title" autocomplete="off">
+
+    <label for="project">Project <small style="color:#484f58">(optional)</small></label>
+    <input type="text" id="project" placeholder="e.g. ideas-repo-tooling" autocomplete="off">
+
+    <label for="body">Body</label>
+    <textarea id="body" placeholder="Raw thought, unedited…"></textarea>
+
+    <div class="actions">
+      <div class="status" id="status"></div>
+      <button class="btn-primary" id="submit-btn">Append</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Config ─────────────────────────────────────────────────────────────────
+const CLIENT_ID     = 'YOUR_CLIENT_ID';
+const CLIENT_SECRET = 'YOUR_CLIENT_SECRET';
+const REPO_OWNER    = 'UnstoppableMango';
+const REPO_NAME     = 'ideas';
+const FILE_PATH     = 'INBOX.md';
+const REDIRECT_URI  = (() => {
+  const u = new URL(location.href);
+  u.search = '';
+  u.hash = '';
+  return u.toString();
+})();
+
+// ── PKCE helpers ───────────────────────────────────────────────────────────
+function randomBytes(n) {
+  return crypto.getRandomValues(new Uint8Array(n));
+}
+
+function base64url(buf) {
+  return btoa(String.fromCharCode(...buf))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+async function pkceChallenge() {
+  const verifier = base64url(randomBytes(32));
+  const digest   = await crypto.subtle.digest('SHA-256',
+    new TextEncoder().encode(verifier));
+  const challenge = base64url(new Uint8Array(digest));
+  return { verifier, challenge };
+}
+
+// ── Storage ────────────────────────────────────────────────────────────────
+const store = {
+  get:    k => sessionStorage.getItem(k) ?? localStorage.getItem(k),
+  set:    (k, v) => localStorage.setItem(k, v),
+  setTmp: (k, v) => sessionStorage.setItem(k, v),
+  del:    k => { localStorage.removeItem(k); sessionStorage.removeItem(k); },
+};
+
+function getToken()  { return store.get('gh_token'); }
+function saveToken(t){ store.set('gh_token', t); }
+function clearAuth() {
+  ['gh_token','pkce_verifier','oauth_state'].forEach(k => store.del(k));
+}
+
+// ── OAuth flow ─────────────────────────────────────────────────────────────
+async function startLogin() {
+  const { verifier, challenge } = await pkceChallenge();
+  const state = base64url(randomBytes(16));
+  store.setTmp('pkce_verifier', verifier);
+  store.setTmp('oauth_state', state);
+
+  const params = new URLSearchParams({
+    client_id:             CLIENT_ID,
+    redirect_uri:          REDIRECT_URI,
+    scope:                 'repo',
+    state,
+    code_challenge:        challenge,
+    code_challenge_method: 'S256',
+  });
+  location.href = `https://github.com/login/oauth/authorize?${params}`;
+}
+
+async function exchangeCode(code, state) {
+  const storedState    = store.get('oauth_state');
+  const codeVerifier   = store.get('pkce_verifier');
+
+  if (!storedState || state !== storedState) throw new Error('State mismatch — possible CSRF');
+  if (!codeVerifier) throw new Error('Missing PKCE verifier');
+
+  store.del('oauth_state');
+  store.del('pkce_verifier');
+
+  // GitHub requires client_secret even with PKCE; both are public for SPAs per
+  // https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/best-practices-for-creating-a-github-app#client-secrets
+  const body = new URLSearchParams({
+    client_id:     CLIENT_ID,
+    client_secret: CLIENT_SECRET,
+    code,
+    redirect_uri:  REDIRECT_URI,
+    code_verifier: codeVerifier,
+  });
+
+  const res = await fetch('https://github.com/login/oauth/access_token', {
+    method:  'POST',
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error_description ?? data.error);
+  return data.access_token;
+}
+
+// ── GitHub API ─────────────────────────────────────────────────────────────
+async function ghFetch(path, opts = {}) {
+  const token = getToken();
+  const res = await fetch(`https://api.github.com${path}`, {
+    ...opts,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(opts.headers ?? {}),
+    },
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw Object.assign(new Error(err.message ?? res.statusText), { status: res.status });
+  }
+  return res.json();
+}
+
+async function getUser() {
+  return ghFetch('/user');
+}
+
+async function appendToInbox(markdown, retries = 3) {
+  const url = `/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+  const file = await ghFetch(url);
+  const current = atob(file.content.replace(/\n/g, ''));
+
+  const separator = current.endsWith('\n\n') ? '' : current.endsWith('\n') ? '\n' : '\n\n';
+  const updated = current + separator + markdown + '\n';
+
+  try {
+    await ghFetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `inbox: ${firstLine(markdown)}`,
+        content: btoa(unescape(encodeURIComponent(updated))),
+        sha:     file.sha,
+      }),
+    });
+  } catch (e) {
+    // Retry on conflict (concurrent edit changed sha)
+    if (e.status === 409 && retries > 0) return appendToInbox(markdown, retries - 1);
+    throw e;
+  }
+}
+
+function firstLine(s) {
+  return s.split('\n').find(l => l.trim()) ?? 'add idea';
+}
+
+// ── Formatting ─────────────────────────────────────────────────────────────
+function formatEntry(title, project, body) {
+  const date = new Date().toISOString().slice(0, 10);
+  const lines = [];
+
+  if (project) {
+    lines.push(`## Project: ${project.trim()}`);
+    lines.push('');
+    lines.push(`### ${title.trim()}`);
+  } else {
+    lines.push(`## ${title.trim()}`);
+  }
+
+  lines.push(date);
+  lines.push('');
+  if (body.trim()) lines.push(body.trim());
+
+  return lines.join('\n');
+}
+
+// ── UI ─────────────────────────────────────────────────────────────────────
+function setStatus(msg, type = '') {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className   = 'status' + (type ? ' ' + type : '');
+}
+
+async function showApp(token) {
+  saveToken(token);
+  let user;
+  try {
+    user = await getUser();
+  } catch {
+    clearAuth();
+    showAuth();
+    return;
+  }
+
+  document.getElementById('auth-section').style.display = 'none';
+  document.getElementById('form-section').style.display = 'block';
+  document.getElementById('user-avatar').src = user.avatar_url;
+  document.getElementById('user-login').textContent = user.login;
+  document.getElementById('title').focus();
+}
+
+function showAuth() {
+  document.getElementById('form-section').style.display = 'none';
+  document.getElementById('auth-section').style.display = 'block';
+}
+
+// ── Boot ───────────────────────────────────────────────────────────────────
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const code   = params.get('code');
+  const state  = params.get('state');
+
+  // Clean query string from URL (avoid reuse on refresh)
+  if (code) history.replaceState(null, '', REDIRECT_URI);
+
+  document.getElementById('login-btn').addEventListener('click', startLogin);
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    clearAuth();
+    showAuth();
+  });
+
+  document.getElementById('submit-btn').addEventListener('click', async () => {
+    const title   = document.getElementById('title').value.trim();
+    const project = document.getElementById('project').value.trim();
+    const body    = document.getElementById('body').value;
+
+    if (!title) { setStatus('Title is required.', 'error'); return; }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    setStatus('Appending…');
+
+    try {
+      await appendToInbox(formatEntry(title, project, body));
+      setStatus('Appended ✓', 'ok');
+      document.getElementById('title').value   = '';
+      document.getElementById('project').value = '';
+      document.getElementById('body').value    = '';
+      document.getElementById('title').focus();
+    } catch (e) {
+      setStatus(e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  if (code && state) {
+    setStatus('Signing in…');
+    try {
+      const token = await exchangeCode(code, state);
+      await showApp(token);
+      setStatus('');
+    } catch (e) {
+      setStatus(e.message, 'error');
+      showAuth();
+    }
+  } else if (getToken()) {
+    await showApp(getToken());
+  } else {
+    showAuth();
+  }
+})();
+</script>
+</body>
+</html>
