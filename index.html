@@ -140,6 +140,16 @@
     }
 
     .user-bar span { flex: 1; color: #e6edf3; }
+
+    .create-token {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #8b949e;
+      text-decoration: none;
+    }
+
+    .create-token:hover { color: #e6edf3; }
   </style>
 </head>
 <body>
@@ -150,6 +160,7 @@
   <div id="auth-section">
     <label for="token">Personal access token</label>
     <input type="text" id="token" placeholder="github_pat_…" autocomplete="off">
+    <a class="create-token" id="create-token-link" href="#" target="_blank" rel="noopener">Create token →</a>
 
     <div class="actions">
       <div class="status" id="auth-status"></div>
@@ -186,6 +197,14 @@
 const REPO_OWNER = 'UnstoppableMango';
 const REPO_NAME  = 'ideas';
 const FILE_PATH  = 'INBOX.md';
+
+const CREATE_TOKEN_URL = 'https://github.com/settings/personal-access-tokens/new?' + new URLSearchParams({
+  name:        'INBOX capture',
+  description: `Append access for ${REPO_OWNER}/${REPO_NAME} ${FILE_PATH}`,
+  target_name: REPO_OWNER,
+  contents:    'write',
+  expires_in:  '90',
+});
 
 // ── Storage ────────────────────────────────────────────────────────────────
 function getToken()  { return localStorage.getItem('gh_token'); }
@@ -298,7 +317,9 @@ function showAuth() {
 
 // ── Boot ───────────────────────────────────────────────────────────────────
 (async () => {
-  document.getElementById('connect-btn').addEventListener('click', async () => {
+  document.getElementById('create-token-link').href = CREATE_TOKEN_URL;
+
+  async function connect() {
     const tokenInput = document.getElementById('token');
     const token = tokenInput.value.trim();
     if (!token) { setStatus('Token is required.', 'error', 'auth-status'); return; }
@@ -309,6 +330,14 @@ function showAuth() {
     await showApp(token);
     tokenInput.value = '';
     btn.disabled = false;
+  }
+
+  document.getElementById('connect-btn').addEventListener('click', connect);
+
+  document.getElementById('token').addEventListener('paste', (e) => {
+    const pasted = e.clipboardData?.getData('text');
+    if (!pasted) return;
+    setTimeout(connect, 0);
   });
 
   document.getElementById('logout-btn').addEventListener('click', () => {
