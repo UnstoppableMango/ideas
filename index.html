@@ -163,7 +163,7 @@
     <a class="create-token" id="create-token-link" href="#" target="_blank" rel="noopener">Create token →</a>
 
     <div class="actions">
-      <div class="status" id="auth-status"></div>
+      <div class="status" id="auth-status" role="status" aria-live="polite"></div>
       <button class="btn-primary" id="connect-btn">Connect</button>
     </div>
   </div>
@@ -186,7 +186,7 @@
     <textarea id="body" placeholder="Raw thought, unedited…"></textarea>
 
     <div class="actions">
-      <div class="status" id="status"></div>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
       <button class="btn-primary" id="submit-btn">Append</button>
     </div>
   </div>
@@ -207,9 +207,22 @@ const CREATE_TOKEN_URL = 'https://github.com/settings/personal-access-tokens/new
 });
 
 // ── Storage ────────────────────────────────────────────────────────────────
-function getToken()  { return localStorage.getItem('gh_token'); }
-function saveToken(t){ localStorage.setItem('gh_token', t); }
-function clearAuth() { localStorage.removeItem('gh_token'); }
+function getToken()  { return sessionStorage.getItem('gh_token'); }
+function saveToken(t){ sessionStorage.setItem('gh_token', t); }
+function clearAuth() { sessionStorage.removeItem('gh_token'); }
+
+// ── Base64 (UTF-8 safe) ───────────────────────────────────────────────────
+function b64Decode(b64) {
+  const bytes = Uint8Array.from(atob(b64.replace(/\n/g, '')), c => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+function b64Encode(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  for (const b of bytes) binary += String.fromCharCode(b);
+  return btoa(binary);
+}
 
 // ── GitHub API ─────────────────────────────────────────────────────────────
 async function ghFetch(path, opts = {}) {
@@ -237,7 +250,7 @@ async function getUser() {
 async function appendToInbox(markdown, retries = 3) {
   const url = `/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
   const file = await ghFetch(url);
-  const current = atob(file.content.replace(/\n/g, ''));
+  const current = b64Decode(file.content);
 
   const separator = current.endsWith('\n\n') ? '' : current.endsWith('\n') ? '\n' : '\n\n';
   const updated = current + separator + markdown + '\n';
@@ -248,7 +261,7 @@ async function appendToInbox(markdown, retries = 3) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: `inbox: ${firstLine(markdown)}`,
-        content: btoa(unescape(encodeURIComponent(updated))),
+        content: b64Encode(updated),
         sha:     file.sha,
       }),
     });
