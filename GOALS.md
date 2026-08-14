@@ -1,5 +1,6 @@
 # Project Goals
 
+- Persist raw ideas in version control (git), with as little friction between having an idea and it being committed as possible
 - Provide a raw, unfiltered location for extracting ideas from a human mind
 - Provide a semi-structured data source for other tooling and automation to act upon (aspirational, no specific tool yet, but format should stay parseable)
 - Capture ideas with zero friction: append to a single running inbox, no per-idea file, no required metadata
