@@ -42,6 +42,36 @@ Raw thought...
 - No status, tags, or other metadata at capture time.
   See GOALS.md, that's deferred to a future refine process.
 
+## Refine output
+
+Once an idea is refined (see GOALS.md and the `/refine` skill), it moves out
+of `INBOX.md` into one of:
+
+```
+REFINED.md    # accepted, structured ideas
+REJECTED.md   # declined ideas, kept for record
+```
+
+Lifecycle state is which file the entry lives in, not a status field.
+Entries keep the same heading/date/body shape as `INBOX.md`
+(including `## Project:` / `###` grouping), with one addition in
+`REFINED.md`:
+
+```markdown
+## Cache the API responses
+2026-07-27
+source: TBD
+
+Raw thought, unedited, whatever comes out.
+```
+
+- `source:` line sits directly under the date line, before the blank line
+  and body. Value is `TBD`, `reality` (idea gets done directly in the world,
+  no repo artifact), or `git` (implementation lives in a repo).
+  `/refine` always sets it to `TBD`; a later step assigns the real value
+  once work starts.
+- `REJECTED.md` entries use the identical shape without a `source:` line.
+
 ## Rationale
 
 - Single file, zero friction: capturing a thought is "add a heading and write," no file creation, no schema to fill in.

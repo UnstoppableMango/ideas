@@ -32,6 +32,12 @@ Defined in full in `LAYOUT.md`. Key points:
 
 When adding entries to `INBOX.md` (by hand or via tooling), match this structure exactly; don't invent frontmatter or metadata fields.
 
+## Refine
+
+The `/refine` skill (`.claude/skills/refine/SKILL.md`) promotes one INBOX.md
+idea into `REFINED.md` or `REJECTED.md`, per the structure in `LAYOUT.md`.
+Manual, human-triggered only — pick an idea, run `/refine` against it.
+
 ## index.html
 
 Static, dependency-free GitHub Pages capture form (no build step — edit in place).

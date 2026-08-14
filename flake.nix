@@ -47,6 +47,10 @@
             };
             actionlint.enable = true;
           };
+
+          # mdformat has no YAML frontmatter support and mangles skill
+          # frontmatter (name/description) into plain markdown.
+          treefmt.settings.global.excludes = [ ".claude/skills/**/*.md" ];
         };
     };
 }
