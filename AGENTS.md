@@ -37,7 +37,7 @@ When adding entries to `INBOX.md` (by hand or via tooling), match this structure
 Static, dependency-free GitHub Pages capture form (no build step — edit in place).
 Lets a signed-in GitHub user append an entry to `INBOX.md` directly via the GitHub Contents API, from a phone or any browser, without cloning the repo.
 
-- Auth: user pastes a fine-grained GitHub PAT (repo contents:write scope), stored only in `sessionStorage`, never sent anywhere but `api.github.com`.
-- Write flow: GET current file content + sha, append formatted entry client-side, PUT back; retries once on 409 (concurrent edit changed sha).
+- Auth: user pastes a fine-grained GitHub PAT (repo-scoped, "Contents: Read and write" permission), stored only in `sessionStorage`, never sent anywhere but `api.github.com`.
+- Write flow: GET current file content + sha, append formatted entry client-side, PUT back; retries up to 3 times on 409 (concurrent edit changed sha).
 - `formatEntry()` in the `<script>` block is the client-side twin of the structure in `LAYOUT.md` — keep the two in sync if either changes.
 - `REPO_OWNER` / `REPO_NAME` / `FILE_PATH` constants at the top of the script are the only repo-specific wiring.
