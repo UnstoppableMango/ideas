@@ -1,12 +1,12 @@
 # ideas
 
 Personal idea-capture repo.
-Raw ideas go straight into `INBOX.md`, no polish, no friction.
 
 ## [Capture an idea →](https://unstoppablemango.github.io/ideas/)
 
 Opens mobile-friendly capture form.
 Sign in with GitHub token, type, submit, done.
+If you're not UnstoppableMango, this won't work for you.
 
 ## More
 
