@@ -1,5 +1,7 @@
 # ideas
 
+[![Hercules CI](https://hercules-ci.com/api/v1/site/github/account/UnstoppableMango/project/ideas/badge)](https://hercules-ci.com/github/UnstoppableMango/ideas)
+
 Personal idea-capture repo.
 
 ## [Capture an idea →](https://unstoppablemango.github.io/ideas/)
